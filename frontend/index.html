@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 Кинтека - Каталог фильмов</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/movie.png">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-film"></i>
+                    <h1>Что посмотреть</h1>
+                    <span class="tagline">Фильмы со всего интернета</span>
+                </div>
+                
+                <div class="header-stats">
+                    <div class="stat">
+                        <i class="fas fa-video"></i>
+                        <span id="movies-count">1000+</span>
+                        <small>фильмов</small>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span id="avg-rating">8.0</span>
+                        <small>средний рейтинг</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Поиск и фильтры -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" 
+                       id="search-input" 
+                       placeholder="Найти фильм по названию, жанру или описанию..."
+                       autocomplete="off">
+                <div id="search-suggestions" class="suggestions"></div>
+                <button id="search-btn" class="btn-search">
+                    <i class="fas fa-search"></i> Поиск
+                </button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label><i class="fas fa-filter"></i> Фильтры:</label>
+                    
+                    <select id="genre-filter">
+                        <option value="">Все жанры</option>
+                        <!-- Жанры загружаются динамически -->
+                    </select>
+                    
+                    <select id="year-filter">
+                        <option value="">Все годы</option>
+                        <option value="2020-2024">2020-2024</option>
+                        <option value="2010-2019">2010-2019</option>
+                        <option value="2000-2009">2000-2009</option>
+                        <option value="1990-1999">1990-1999</option>
+                        <option value="1980-1989">1980-1989</option>
+                    </select>
+                    
+                    <select id="rating-filter">
+                        <option value="">Любой рейтинг</option>
+                        <option value="9">9+ IMDb</option>
+                        <option value="8">8+ IMDb</option>
+                        <option value="7">7+ IMDb</option>
+                        <option value="6">6+ IMDb</option>
+                    </select>
+                    
+                    <div class="platform-filters">
+                        <label class="platform-checkbox">
+                            <input type="checkbox" value="netflix" checked>
+                            <span class="netflix-badge">Netflix</span>
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" value="amazon" checked>
+                            <span class="amazon-badge">Amazon</span>
+                        </label>
+                        <label class="platform-checkbox">
+                            <input type="checkbox" value="imdb" checked>
+                            <span class="imdb-badge">IMDb</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button id="reset-filters" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Сбросить
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основной контент -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Пагинация сверху -->
+            <div class="pagination-top">
+                <div id="results-info" class="results-info">
+                    Загрузка фильмов...
+                </div>
+                <div class="pagination-controls">
+                    <button id="prev-page" class="btn-pagination">
+                        <i class="fas fa-chevron-left"></i> Назад
+                    </button>
+                    <span id="page-info">Страница 1 из 50</span>
+                    <button id="next-page" class="btn-pagination">
+                        Вперед <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Сетка фильмов -->
+            <div id="movies-grid" class="movies-grid">
+                <!-- Фильмы загружаются динамически -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Загрузка фильмов...</p>
+                </div>
+            </div>
+
+            <!-- Пагинация снизу -->
+            <div class="pagination-bottom">
+                <div class="pagination-controls">
+                    <button id="prev-page-bottom" class="btn-pagination">
+                        <i class="fas fa-chevron-left"></i> Назад
+                    </button>
+                    <span id="page-info-bottom">Страница 1 из 50</span>
+                    <button id="next-page-bottom" class="btn-pagination">
+                        Вперед <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Модальное окно с деталями фильма -->
+    <div id="movie-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="movie-details">
+                <!-- Детали фильма загружаются динамически -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-film"></i>
+                    <h3>Что посмотреть</h3>
+                    <p>Интегрированная база фильмов из Netflix, Amazon Prime и IMDb</p>
+                </div>
+                
+                <div class="footer-info">
+                    <p><i class="fas fa-database"></i> База содержит 1000+ фильмов с постерами</p>
+                    <p><i class="fas fa-code"></i> Разработано для курсового проекта по БД Манько Мишель Б9123-09.03.03пикд</p>
+                    <p><i class="fas fa-graduation-cap"></i> 2026 - Интеграционная база данных</p>
+                </div>
+                
+                <div class="footer-platforms">
+                    <h4>Доступно на платформах:</h4>
+                    <div class="platform-icons">
+                        <span class="netflix-icon" title="Netflix">
+                            <i class="fab fa-netflix"></i>
+                        </span>
+                        <span class="amazon-icon" title="Amazon Prime">
+                            <i class="fab fa-amazon"></i>
+                        </span>
+                        <span class="imdb-icon" title="IMDb">
+                            <i class="fab fa-imdb"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="script.js"></script>
+</body>
+</html>
